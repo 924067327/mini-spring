@@ -1,9 +1,12 @@
 package com.blackhuang.mini.spring.factory.support;
 
-import com.blackhuang.mini.spring.factory.PropertyValue;
-import com.blackhuang.mini.spring.factory.PropertyValues;
-import com.blackhuang.mini.spring.factory.config.BeanDefinition;
-import com.blackhuang.mini.spring.factory.config.BeanReference;
+import com.blackhuang.mini.spring.bean.Skill;
+import com.blackhuang.mini.spring.bean.Person;
+import com.blackhuang.mini.spring.beans.PropertyValue;
+import com.blackhuang.mini.spring.beans.PropertyValues;
+import com.blackhuang.mini.spring.beans.factory.config.BeanDefinition;
+import com.blackhuang.mini.spring.beans.factory.config.BeanReference;
+import com.blackhuang.mini.spring.beans.factory.support.DefaultListableBeanFactory;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -15,9 +18,9 @@ class DefaultListableBeanFactoryTest {
     @Test
     public void testGetBean() {
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-        beanFactory.registerBeanDefinition("testBean", new BeanDefinition(person.class));
+        beanFactory.registerBeanDefinition("testBean", new BeanDefinition(Person.class));
         Object bean = beanFactory.getBean("testBean");
-        person person = (person) bean;
+        Person person = (Person) bean;
         person.desc();
     }
 
@@ -35,39 +38,11 @@ class DefaultListableBeanFactoryTest {
         personPvs.addPropertyValue(new PropertyValue("name", "blackhuang"));
         personPvs.addPropertyValue(new PropertyValue("age", 30));
         personPvs.addPropertyValue(new PropertyValue("skill", new BeanReference("skill_bean")));
-        beanFactory.registerBeanDefinition("person_bean", new BeanDefinition(person.class, personPvs));
+        beanFactory.registerBeanDefinition("person_bean", new BeanDefinition(Person.class, personPvs));
         
         Object bean = beanFactory.getBean("person_bean");
-        person person = (person) bean;
+        Person person = (Person) bean;
         person.desc();
-    }
-
-    static class person {
-
-        private String name;
-        private int age;
-
-        private Skill skill;
-
-        public person() {
-        }
-
-        public void desc() {
-            System.out.println("test bean " + name + ", age " + age + ", has skill " + skill);
-        }
-    }
-
-    static class Skill {
-        
-        private String name;
-
-        public Skill() {
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
     }
 
 }

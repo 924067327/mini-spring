@@ -1,6 +1,6 @@
-package com.blackhuang.mini.spring.factory.support;
+package com.blackhuang.mini.spring.beans.factory.support;
 
-import com.blackhuang.mini.spring.factory.config.SingletonBeanRegister;
+import com.blackhuang.mini.spring.beans.factory.config.SingletonBeanRegister;
 
 import java.util.HashMap;
 import java.util.Map;

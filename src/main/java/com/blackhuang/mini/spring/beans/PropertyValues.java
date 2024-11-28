@@ -1,4 +1,4 @@
-package com.blackhuang.mini.spring.factory;
+package com.blackhuang.mini.spring.beans;
 
 import java.util.ArrayList;
 import java.util.List;

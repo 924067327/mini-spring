@@ -1,4 +1,4 @@
-package com.blackhuang.mini.spring.factory.config;
+package com.blackhuang.mini.spring.beans.factory.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

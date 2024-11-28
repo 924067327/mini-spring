@@ -1,7 +1,7 @@
-package com.blackhuang.mini.spring.factory.support;
+package com.blackhuang.mini.spring.beans.factory.support;
 
-import com.blackhuang.mini.spring.factory.BeansException;
-import com.blackhuang.mini.spring.factory.config.BeanDefinition;
+import com.blackhuang.mini.spring.beans.BeansException;
+import com.blackhuang.mini.spring.beans.factory.config.BeanDefinition;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 

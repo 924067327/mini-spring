@@ -1,4 +1,4 @@
-package com.blackhuang.mini.spring.factory;
+package com.blackhuang.mini.spring.beans;
 
 /**
  * @author blackhuang

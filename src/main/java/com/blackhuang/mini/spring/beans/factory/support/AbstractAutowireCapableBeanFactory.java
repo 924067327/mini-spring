@@ -1,10 +1,10 @@
-package com.blackhuang.mini.spring.factory.support;
+package com.blackhuang.mini.spring.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.blackhuang.mini.spring.factory.BeansException;
-import com.blackhuang.mini.spring.factory.PropertyValue;
-import com.blackhuang.mini.spring.factory.config.BeanDefinition;
-import com.blackhuang.mini.spring.factory.config.BeanReference;
+import com.blackhuang.mini.spring.beans.BeansException;
+import com.blackhuang.mini.spring.beans.PropertyValue;
+import com.blackhuang.mini.spring.beans.factory.config.BeanDefinition;
+import com.blackhuang.mini.spring.beans.factory.config.BeanReference;
 
 /**
  * @author blackhuang

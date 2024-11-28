@@ -1,4 +1,6 @@
-package com.blackhuang.mini.spring.factory;
+package com.blackhuang.mini.spring.beans.factory;
+
+import com.blackhuang.mini.spring.beans.BeansException;
 
 /**
  * @author blackhuang

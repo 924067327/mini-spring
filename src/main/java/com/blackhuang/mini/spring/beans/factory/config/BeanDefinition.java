@@ -1,6 +1,6 @@
-package com.blackhuang.mini.spring.factory.config;
+package com.blackhuang.mini.spring.beans.factory.config;
 
-import com.blackhuang.mini.spring.factory.PropertyValues;
+import com.blackhuang.mini.spring.beans.PropertyValues;
 import lombok.Data;
 
 /**
@@ -15,7 +15,7 @@ public class BeanDefinition {
     private PropertyValues propertyValues;
 
     public BeanDefinition(Class<?> beanClass) {
-        this(beanClass, null);
+        this(beanClass, new PropertyValues());
     }
 
     public BeanDefinition(Class<?> beanClass, PropertyValues propertyValues) {
