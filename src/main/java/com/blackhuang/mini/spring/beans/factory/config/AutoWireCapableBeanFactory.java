@@ -3,6 +3,8 @@ package com.blackhuang.mini.spring.beans.factory.config;
 import com.blackhuang.mini.spring.beans.factory.BeanFactory;
 
 /**
+ * BeanFactory 接口的扩展，可以实现bean的自动装配
+ *
  * @author blackhuang
  * @date 2024/11/28 20:46
  */

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
-    
+
     <bean id="blackhuang" class="com.blackhuang.mini.spring.bean.Person">
         <property name="name" value="blackhuang"/>
         <property name="age" value="30"/>
@@ -10,4 +10,9 @@
     <bean id="java" class="com.blackhuang.mini.spring.bean.Skill">
         <property name="name" value="java"/>
     </bean>
+
+    <bean id="my_bean_processor" class="com.blackhuang.mini.spring.bean.MyBeanPostProcessor"/>
+
+    <bean id="my_factory_processor" class="com.blackhuang.mini.spring.bean.MyBeanFactoryPostProcessor"/>
+    
 </beans>

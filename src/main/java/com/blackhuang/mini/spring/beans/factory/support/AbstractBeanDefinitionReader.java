@@ -12,7 +12,7 @@ import com.blackhuang.mini.spring.core.io.ResourceLoader;
  */
 public abstract class AbstractBeanDefinitionReader implements BeanDefinitionReader {
 
-    private ResourceLoader resourceLoader;
+    private final ResourceLoader resourceLoader;
 
     private final BeanDefinitionRegistry registry;
 
@@ -33,10 +33,6 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
     @Override
     public ResourceLoader getResourceLoader() {
         return resourceLoader;
-    }
-
-    public void setResourceLoader(ResourceLoader resourceLoader) {
-        this.resourceLoader = resourceLoader;
     }
 
     @Override

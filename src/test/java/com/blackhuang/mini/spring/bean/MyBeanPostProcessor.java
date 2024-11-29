@@ -1,6 +1,5 @@
-package com.blackhuang.mini.spring.factory.support;
+package com.blackhuang.mini.spring.bean;
 
-import com.blackhuang.mini.spring.bean.Person;
 import com.blackhuang.mini.spring.beans.BeansException;
 import com.blackhuang.mini.spring.beans.factory.config.BeanPostProcessor;
 
