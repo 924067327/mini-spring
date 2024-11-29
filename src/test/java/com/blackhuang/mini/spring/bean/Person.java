@@ -1,9 +1,12 @@
 package com.blackhuang.mini.spring.bean;
 
+import lombok.Data;
+
 /**
  * @author blackhuang
  * @date 2024/11/28 17:57
  */
+@Data
 public class Person {
 
     private String name;

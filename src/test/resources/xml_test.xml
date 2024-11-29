@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
     
-    <bean id="person" class="com.blackhuang.mini.spring.bean.Person">
+    <bean id="blackhuang" class="com.blackhuang.mini.spring.bean.Person">
         <property name="name" value="blackhuang"/>
         <property name="age" value="30"/>
         <property name="skill" ref="java"/>
