@@ -1,9 +1,11 @@
 package com.blackhuang.mini.spring.beans.factory.support;
 
+import com.blackhuang.mini.spring.beans.BeansException;
+import com.blackhuang.mini.spring.beans.factory.DisposableBean;
 import com.blackhuang.mini.spring.beans.factory.config.SingletonBeanRegister;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * @author blackhuang
@@ -11,7 +13,9 @@ import java.util.Map;
  */
 public class DefaultSingletonBeanRegister implements SingletonBeanRegister {
 
-    private final Map<String, Object> singletonBeanMap = new HashMap<String, Object>();
+    private final Map<String, Object> singletonBeanMap = new HashMap<>();
+
+    private final Map<String, DisposableBean> disposableBeanMap = new HashMap<>();
 
     @Override
     public Object getSingleton(String beanName) {
@@ -20,6 +24,21 @@ public class DefaultSingletonBeanRegister implements SingletonBeanRegister {
 
     protected void addSingleton(String beanName, Object bean) {
         singletonBeanMap.put(beanName, bean);
+    }
+
+    public void registerDisposableBean(String beanName, DisposableBean bean) {
+        disposableBeanMap.put(beanName, bean);
+    }
+
+    public void destroySingletons() {
+        disposableBeanMap.keySet().forEach(beanName -> {
+            DisposableBean destroyBean = disposableBeanMap.remove(beanName);
+            try {
+                destroyBean.destroy();
+            } catch (Exception e) {
+                throw new BeansException("destroy bean error, bean: " + beanName, e);
+            }
+        });
     }
 
 }

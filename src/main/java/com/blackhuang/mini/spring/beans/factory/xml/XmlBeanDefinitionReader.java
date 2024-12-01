@@ -4,7 +4,6 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
 import com.blackhuang.mini.spring.beans.BeansException;
 import com.blackhuang.mini.spring.beans.PropertyValue;
-import com.blackhuang.mini.spring.beans.PropertyValues;
 import com.blackhuang.mini.spring.beans.factory.config.BeanDefinition;
 import com.blackhuang.mini.spring.beans.factory.config.BeanDefinitionRegistry;
 import com.blackhuang.mini.spring.beans.factory.config.BeanReference;
@@ -31,6 +30,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     public static final String CLASS_ATTRIBUTE = "class";
     public static final String VALUE_ATTRIBUTE = "value";
     public static final String REF_ATTRIBUTE = "ref";
+    public static final String INIT_METHOD_ATTRIBUTE = "init-method";
+    public static final String DESTROY_METHOD_ATTRIBUTE = "destroy-method";
 
     public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
         super(registry);
@@ -64,12 +65,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         NodeList childNodes = root.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node node = childNodes.item(i);
-            if (!(node instanceof Element)) {
+            if (!(node instanceof Element element)) {
                 continue;
             }
-            Element element = (Element) node;
 
-            // 实例化 bean definition
+            // instantiate bean definition
             String className = element.getAttribute(CLASS_ATTRIBUTE);
             Class<?> clz;
             try {
@@ -79,10 +79,16 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             }
             BeanDefinition beanDefinition = new BeanDefinition(clz);
 
-            // 加载 bean definition properties
+            // load bean definition's init&destroy method
+            String initMethod = element.getAttribute(INIT_METHOD_ATTRIBUTE);
+            String destroyMethod = element.getAttribute(DESTROY_METHOD_ATTRIBUTE);
+            beanDefinition.setInitMethodName(initMethod);
+            beanDefinition.setDestroyMethodName(destroyMethod);
+
+            // load bean definition's properties
             loadBeanProperties(beanDefinition, element);
 
-            // 注册 bean definition
+            // register bean definition
             String id = element.getAttribute(ID_ATTRIBUTE);
             String name = element.getAttribute(NAME_ATTRIBUTE);
             String beanName = StrUtil.isNotEmpty(id) ? id : name;
@@ -102,21 +108,23 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             if (!PROPERTY_ELEMENT.equals(node.getNodeName())) {
                 continue;
             }
-            Element property = (Element) node;
+            Element propertiesEle = (Element) node;
             // name
-            String name = property.getAttribute(NAME_ATTRIBUTE);
+            String name = propertiesEle.getAttribute(NAME_ATTRIBUTE);
             if (StrUtil.isEmpty(name)) {
                 throw new BeansException("The name attribute cannot be null or empty");
             }
 
             // value & ref
-            Object value = property.getAttribute(VALUE_ATTRIBUTE);
-            String ref = property.getAttribute(REF_ATTRIBUTE);
+            Object value = propertiesEle.getAttribute(VALUE_ATTRIBUTE);
+            String ref = propertiesEle.getAttribute(REF_ATTRIBUTE);
             if (StrUtil.isNotEmpty(ref)) {
                 value = new BeanReference(ref);
             }
-            PropertyValue propertyValue = new PropertyValue(name, value);
-            beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
+            PropertyValue parsedProperty = new PropertyValue(name, value);
+            
+            // add properties
+            beanDefinition.getPropertyValues().addPropertyValue(parsedProperty);
         }
     }
 

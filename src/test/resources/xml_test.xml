@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
 
-    <bean id="blackhuang" class="com.blackhuang.mini.spring.bean.Person">
+    <bean id="blackhuang"
+          class="com.blackhuang.mini.spring.bean.Person"
+          init-method="initWithXml"
+          destroy-method="destroyWithXml">
         <property name="name" value="blackhuang"/>
         <property name="age" value="30"/>
         <property name="skill" ref="java"/>
@@ -14,5 +17,5 @@
     <bean id="my_bean_processor" class="com.blackhuang.mini.spring.bean.MyBeanPostProcessor"/>
 
     <bean id="my_factory_processor" class="com.blackhuang.mini.spring.bean.MyBeanFactoryPostProcessor"/>
-    
+
 </beans>

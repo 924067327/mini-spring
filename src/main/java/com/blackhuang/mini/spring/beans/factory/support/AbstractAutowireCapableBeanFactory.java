@@ -1,12 +1,18 @@
 package com.blackhuang.mini.spring.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ClassUtil;
+import cn.hutool.core.util.StrUtil;
 import com.blackhuang.mini.spring.beans.BeansException;
 import com.blackhuang.mini.spring.beans.PropertyValue;
+import com.blackhuang.mini.spring.beans.factory.DisposableBean;
+import com.blackhuang.mini.spring.beans.factory.InitializingBean;
 import com.blackhuang.mini.spring.beans.factory.config.AutoWireCapableBeanFactory;
 import com.blackhuang.mini.spring.beans.factory.config.BeanDefinition;
 import com.blackhuang.mini.spring.beans.factory.config.BeanPostProcessor;
 import com.blackhuang.mini.spring.beans.factory.config.BeanReference;
+
+import java.lang.reflect.Method;
 
 /**
  * @author blackhuang
@@ -47,40 +53,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanBea
         return result;
     }
 
-    protected Object doCreateBean(String name, BeanDefinition beanDefinition) {
-        Object bean;
-        try {
-            // 实例化
-            bean = instantiationStrategy.instantiate(beanDefinition);
-            // 填充属性
-            applyPropertyValues(name, bean, beanDefinition);
-            // 初始化
-            bean = initializeBean(name, bean, beanDefinition);
-        } catch (Exception e) {
-            throw new BeansException("newInstance bean fail", e);
-        }
-        addSingleton(name, bean);
-        return bean;
-    }
-
-    protected Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
-
-        // 初始化前置钩子函数
-        Object warpedBean = applyBeanPostProcessorsBeforeInstantiation(bean, beanName);
-
-        // 初始化bean
-        invokeInitialMethod(beanName, warpedBean, beanDefinition);
-
-        // 初始化后置钩子函数
-        warpedBean = applyBeanPostProcessorsAfterInstantiation(warpedBean, beanName);
-
-        return warpedBean;
-    }
-
-    protected void invokeInitialMethod(String beanName, Object bean, BeanDefinition beanDefinition) {
-        System.out.println("invokeInitialMethod for " + beanName);
-    }
-
     protected void applyPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {
         try {
             for (PropertyValue propertyValue : beanDefinition.getPropertyValues().getPropertyValues()) {
@@ -95,6 +67,66 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanBea
             }
         } catch (Exception e) {
             throw new BeansException("apply property values error for bean: " + beanName, e);
+        }
+    }
+
+    protected Object doCreateBean(String name, BeanDefinition beanDefinition) {
+        Object bean;
+        try {
+            // 实例化
+            bean = instantiationStrategy.instantiate(beanDefinition);
+            // 填充属性
+            applyPropertyValues(name, bean, beanDefinition);
+            // 初始化
+            bean = initializeBean(name, bean, beanDefinition);
+        } catch (Exception e) {
+            throw new BeansException("newInstance bean fail", e);
+        }
+
+        // 注册销毁方法
+        registerDisposableBeanIfNecessary(name, bean, beanDefinition);
+
+        // 注册
+        addSingleton(name, bean);
+        return bean;
+    }
+
+    protected Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+
+        // 初始化前置钩子函数
+        Object warpedBean = applyBeanPostProcessorsBeforeInstantiation(bean, beanName);
+
+        // 初始化bean
+        try {
+            invokeInitialMethod(beanName, warpedBean, beanDefinition);
+        } catch (Throwable e) {
+            throw new BeansException("invokeInitialMethod bean fail: " + beanName, e);
+        }
+
+        // 初始化后置钩子函数
+        warpedBean = applyBeanPostProcessorsAfterInstantiation(warpedBean, beanName);
+
+        return warpedBean;
+    }
+
+    protected void invokeInitialMethod(String beanName, Object bean, BeanDefinition beanDefinition) throws Throwable {
+        if (bean instanceof InitializingBean) {
+            ((InitializingBean) bean).afterPropertiesSet();
+        }
+        String initMethodName = beanDefinition.getInitMethodName();
+        if (StrUtil.isNotEmpty(initMethodName) && !(bean instanceof InitializingBean && initMethodName.equals("afterPropertiesSet"))) {
+            Method initMethod = ClassUtil.getPublicMethod(beanDefinition.getBeanClass(), initMethodName);
+            if (initMethod != null) {
+                initMethod.invoke(bean);
+            } else {
+                throw new BeansException("Bean [" + beanName + "] has no init-method [" + initMethodName + "]");
+            }
+        }
+    }
+
+    protected void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {
+        if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
+            registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, beanDefinition.getDestroyMethodName()));
         }
     }
 
