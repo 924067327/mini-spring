@@ -3,6 +3,7 @@ package com.blackhuang.mini.spring.beans.factory.support;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
+import com.blackhuang.mini.spring.beans.BeanFactoryAware;
 import com.blackhuang.mini.spring.beans.BeansException;
 import com.blackhuang.mini.spring.beans.PropertyValue;
 import com.blackhuang.mini.spring.beans.factory.DisposableBean;
@@ -92,6 +93,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanBea
     }
 
     protected Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+        // bean factory aware
+        if (bean instanceof BeanFactoryAware) {
+            ((BeanFactoryAware) bean).setBeanFactory(this);
+        }
 
         // 初始化前置钩子函数
         Object warpedBean = applyBeanPostProcessorsBeforeInstantiation(bean, beanName);

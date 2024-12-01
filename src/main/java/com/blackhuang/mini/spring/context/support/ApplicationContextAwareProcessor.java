@@ -3,25 +3,24 @@ package com.blackhuang.mini.spring.context.support;
 import com.blackhuang.mini.spring.beans.BeansException;
 import com.blackhuang.mini.spring.beans.factory.config.BeanPostProcessor;
 import com.blackhuang.mini.spring.context.ApplicationContext;
+import com.blackhuang.mini.spring.context.ApplicationContextAware;
 import lombok.AllArgsConstructor;
 
-/**
- * @author blackhuang
- * @date 2024/11/29 15:07
- */
 @AllArgsConstructor
-public class ApplicationAwareProcessor implements BeanPostProcessor {
-    
+public class ApplicationContextAwareProcessor implements BeanPostProcessor {
+
     private final ApplicationContext applicationContext;
-    
+
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        // TODO
-        return null;
+        if (bean instanceof ApplicationContextAware) {
+            ((ApplicationContextAware) bean).setApplicationContext(applicationContext);
+        }
+        return bean;
     }
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        return null;
+        return bean;
     }
 }
