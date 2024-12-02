@@ -5,6 +5,7 @@ import com.blackhuang.mini.spring.beans.factory.DisposableBean;
 import com.blackhuang.mini.spring.beans.factory.config.SingletonBeanRegister;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 /**
@@ -15,7 +16,7 @@ public class DefaultSingletonBeanRegister implements SingletonBeanRegister {
 
     private final Map<String, Object> singletonBeanMap = new HashMap<>();
 
-    private final Map<String, DisposableBean> disposableBeanMap = new HashMap<>();
+    private final Map<String, DisposableBean> disposableBeanMap = new ConcurrentHashMap<>();
 
     @Override
     public Object getSingleton(String beanName) {

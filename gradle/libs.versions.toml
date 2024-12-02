@@ -1,5 +1,5 @@
 [libraries]
-lombok = "org.projectlombok:lombok:1.18.4"
+lombok = "org.projectlombok:lombok:1.18.36"
 junitbom = "org.junit:junit-bom:5.10.0"
 cglib = "cglib:cglib:3.3.0"
 hutoolsall = "cn.hutool:hutool-all:5.8.34"

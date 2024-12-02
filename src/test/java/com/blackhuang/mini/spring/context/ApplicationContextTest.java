@@ -12,7 +12,9 @@ class ApplicationContextTest {
 
     @Test
     public void test() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:xml_test.xml");
+        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("classpath:xml_test.xml");
+        context.registerShutdownHook();
+        
         Person p = context.getBean("blackhuang", Person.class);
         p.desc();
     }
