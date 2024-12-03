@@ -14,6 +14,8 @@
         <property name="name" value="java"/>
     </bean>
 
+    <bean id="black_huang_from_factory_bean" class="com.blackhuang.mini.spring.bean.PersonFactoryBean"/>
+
     <bean id="my_bean_processor" class="com.blackhuang.mini.spring.bean.MyBeanPostProcessor"/>
 
     <bean id="my_factory_processor" class="com.blackhuang.mini.spring.bean.MyBeanFactoryPostProcessor"/>
