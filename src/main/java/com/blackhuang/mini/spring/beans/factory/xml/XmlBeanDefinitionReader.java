@@ -32,6 +32,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     public static final String REF_ATTRIBUTE = "ref";
     public static final String INIT_METHOD_ATTRIBUTE = "init-method";
     public static final String DESTROY_METHOD_ATTRIBUTE = "destroy-method";
+    public static final String SCOPE_ATTRIBUTE = "scope";
 
     public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
         super(registry);
@@ -79,6 +80,12 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             }
             BeanDefinition beanDefinition = new BeanDefinition(clz);
 
+            //load bean scope
+            String scope = element.getAttribute(SCOPE_ATTRIBUTE);
+            if (StrUtil.isBlank(scope)) {
+                beanDefinition.setScope(BeanDefinition.SCOPE_SINGLETON);
+            }
+            
             // load bean definition's init&destroy method
             String initMethod = element.getAttribute(INIT_METHOD_ATTRIBUTE);
             String destroyMethod = element.getAttribute(DESTROY_METHOD_ATTRIBUTE);

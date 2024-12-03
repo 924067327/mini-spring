@@ -2,6 +2,7 @@ package com.blackhuang.mini.spring.beans.factory.support;
 
 import com.blackhuang.mini.spring.beans.BeansException;
 import com.blackhuang.mini.spring.beans.factory.DisposableBean;
+import com.blackhuang.mini.spring.beans.factory.config.BeanDefinition;
 import com.blackhuang.mini.spring.beans.factory.config.SingletonBeanRegister;
 
 import java.util.*;

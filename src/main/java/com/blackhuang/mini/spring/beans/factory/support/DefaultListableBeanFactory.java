@@ -5,7 +5,6 @@ import com.blackhuang.mini.spring.beans.factory.config.BeanDefinition;
 import com.blackhuang.mini.spring.beans.factory.config.BeanDefinitionRegistry;
 import com.blackhuang.mini.spring.beans.factory.config.ConfigListableBeanFactory;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -34,7 +33,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
     @Override
     public void preInstantiateSingletons() throws BeansException {
-        beanDefinitionMap.keySet().forEach(this::getBean);
+        beanDefinitionMap.forEach((beanName, beanDefinition) -> {
+            if (beanDefinition.isSingleton()) {
+                getBean(beanName);
+            }
+        });
     }
 
     @Override
@@ -57,7 +60,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     public String[] getBeanDefinitionNames() {
         return beanDefinitionMap.keySet().toArray(new String[0]);
     }
-
 
 
 }
