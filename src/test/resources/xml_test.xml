@@ -20,4 +20,8 @@
 
     <bean id="my_factory_processor" class="com.blackhuang.mini.spring.bean.MyBeanFactoryPostProcessor"/>
 
+    <bean id="application_closed_event_listener" class="com.blackhuang.mini.spring.bean.ApplicationClosedEventListener"/>
+
+    <bean id="application_refresh_event_listener" class="com.blackhuang.mini.spring.bean.ApplicationRefreshEventListener"/>
+    
 </beans>

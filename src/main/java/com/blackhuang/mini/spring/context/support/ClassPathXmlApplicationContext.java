@@ -1,6 +1,7 @@
 package com.blackhuang.mini.spring.context.support;
 
 import com.blackhuang.mini.spring.beans.BeansException;
+import com.blackhuang.mini.spring.context.event.ApplicationEvent;
 
 /**
  * @author blackhuang

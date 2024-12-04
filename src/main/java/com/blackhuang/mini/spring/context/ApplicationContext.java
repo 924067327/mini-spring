@@ -7,7 +7,7 @@ import com.blackhuang.mini.spring.core.io.ResourceLoader;
  * @author blackhuang
  * @date 2024/11/29 14:56
  */
-public interface ApplicationContext extends ListableBeanFactory, ResourceLoader {
+public interface ApplicationContext extends ListableBeanFactory, ResourceLoader, ApplicationEventPublisher {
     
     
     
