@@ -31,12 +31,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         refreshBeanFactory();
         ConfigListableBeanFactory beanFactory = getBeanFactory();
 
-        // 添加BeanPostProcessor
-        beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
-
         // 执行 BeanFactory 加载完成回调
         invokeBeanFactoryPostProcessors(beanFactory);
 
+        // 添加 BeanPostProcessor
+        beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
+        
         // 注册 BeanPostProcessor
         registerBeanPostProcessors(beanFactory);
 

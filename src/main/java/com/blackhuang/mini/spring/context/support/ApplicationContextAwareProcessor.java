@@ -6,6 +6,9 @@ import com.blackhuang.mini.spring.context.ApplicationContext;
 import com.blackhuang.mini.spring.context.ApplicationContextAware;
 import lombok.AllArgsConstructor;
 
+/**
+ * @author 11169169
+ */
 @AllArgsConstructor
 public class ApplicationContextAwareProcessor implements BeanPostProcessor {
 
